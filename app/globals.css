@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .text-dark {
+        @apply text-neutral-700;
+    }
+
+    .bg-light-gradient-up {
+        @apply bg-gradient-to-t from-white to-stone-50;
+    }
+
+    .bg-light-gradient-dn {
+        @apply bg-gradient-to-b from-white to-stone-50;
+    }
+    .minimal-border {
+        @apply border-2 border-stone-200 rounded-md;
+    }
+    .minimal-outline {
+        @apply border-2 border-stone-100 rounded-md outline-none focus:outline-none focus:ring-2 focus:ring-stone-100;
+    }
+    .body-bg {
+        @apply bg-base-300;
+    }
+    .tile {
+        @apply rounded-box bg-base-100 border-base-content/5 drop-shadow-sm px-3 pt-2 pb-3;
+    }
+    .tile h1 {
+        @apply text-2xl font-black mb-1;
+    }
+    .tile h2 {
+        @apply text-xl font-bold uppercase text-neutral-content;
+    }
+    .minimal-input {
+        @apply bg-transparent border-0 border-b-2 border-stone-300 focus:border-stone-400 focus:outline-none focus:ring-0 p-2 m-2;
+    }
+    .minimal-input text {
+        @apply text-stone-300;
+    }
+    .minimal-input:focus {
+        @apply border-stone-400;
+    }
+
+
+}
+
+.react-tabs__tab--selected {
+    background-color: rgba(0, 0, 0, 0);
+    color: white
+}

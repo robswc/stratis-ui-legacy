@@ -10,17 +10,20 @@ async function getStrategies() {
 }
 
 
-
 export default async function StrategyPage() {
 
     const res = await getStrategies()
 
     return (
-        <div className='flex flex-column'>
-            <h1>Strategies</h1>
-            {res.map((strategy: any) => (
-                <Link key={strategy.id} href={'/strategy/' + strategy.name}>{strategy.name}</Link>
-            ))}
+        <div className='container mx-auto px-4'>
+            <div className='tile'>
+                <h1 className='text-4xl mb-3 font-black uppercase'>Strategies</h1>
+                <div className='flex flex-col gap-3'>
+                    {res.map((strategy: any) => (
+                        <Link key={strategy.id} href={'/strategy/' + strategy.name}>{strategy.name}</Link>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
