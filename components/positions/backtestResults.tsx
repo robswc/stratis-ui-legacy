@@ -39,13 +39,14 @@ export default function BacktestResults({backtest}: {backtest: Backtest}) {
         }
     }
 
-    const renderOrderCount = backtest ? <div className='badge badge-sm badge-primary'>{backtest.orders.length}</div> : null
+    const renderOrderCount = backtest ? <div className='badge badge-sm badge-neutral'>{backtest.orders.length}</div> : null
+    const renderPositionCount = backtest ? <div className='badge badge-sm badge-neutral'>{backtest.positions.length}</div> : null
 
     return (
         <Tabs>
             <TabList className='tabs mb-2'>
                 <Tab className='tab tab-bordered'>Overview</Tab>
-                <Tab className='tab tab-bordered'>Positions</Tab>
+                <Tab className='tab tab-bordered'><div className='flex items-center gap-2'><div>Positions</div>{renderPositionCount}</div></Tab>
                 <Tab className='tab tab-bordered'><div className='flex items-center gap-2'><div>Orders</div>{renderOrderCount}</div></Tab>
             </TabList>
             <TabPanel>

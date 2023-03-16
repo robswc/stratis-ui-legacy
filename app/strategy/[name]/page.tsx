@@ -85,12 +85,12 @@ export default function StrategyPage({params}: any) {
     return (
         <div className='grid grid-cols-4 grid-rows-2 gap-3 px-3'>
             <Tile title={strategy.name} className={'row-span-2 flex flex-col gap-2'}>
-                <div className='mb-3'>
+                <div className='tile-section'>
                     <h2>Data</h2>
                     {/*@ts-ignore*/}
                     <DataForm onSubmit={getData}/>
                 </div>
-                <div className='mb-3'>
+                <div className='tile-section'>
                     <h2>Parameters</h2>
                     <StrategyForm name={strategy.name} runCallback={runStrategy}/>
                 </div>
