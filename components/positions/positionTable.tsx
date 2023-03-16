@@ -1,17 +1,18 @@
 import React, {useMemo} from 'react';
 import {useTable, Column, useSortBy} from 'react-table';
-import {Order} from "@/types/types";
+import {Order, Position} from '@/types/types';
+import {getMoneyFormat} from "@/components/utils/utils";
 
 type TableProps = {
-    data: Order[];
-    columns: Column<Order>[];
-}
+    data: Position[];
+    columns: Column<Position>[];
+};
 
-const OrderTable: React.FC<TableProps> = ({data, columns}) => {
+const PositionTable: React.FC<TableProps> = ({data, columns}) => {
     const tableData = useMemo(() => data, [data]);
     const tableColumns = useMemo(() => columns, [columns]);
 
-    const tableInstance = useTable<Order>(
+    const tableInstance = useTable<Position>(
         {
             columns: tableColumns,
             data: tableData,
@@ -28,11 +29,14 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
                 <tr {...headerGroup.getHeaderGroupProps()} className=''>
                     {headerGroup.headers.map((column) => (
                         // @ts-ignore
-                        <th {...column.getHeaderProps(column.getSortByToggleProps())} className='text-left cursor-pointer'>
+                        <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                            className='text-left cursor-pointer'>
                             <div className='btn btn-ghost btn-sm text-bold'>
                                 {column.render('Header')}
-                                {/*@ts-ignore*/}
-                                <span className='ml-1'>{column.isSorted ? (column.isSortedDesc ? '(descending)' : '(ascending)') : ''}</span>
+                                <span className='ml-1'>
+                                    {/*@ts-ignore*/}
+                                    {column.isSorted ? column.isSortedDesc ? '(descending)' : '(ascending)' : ''}
+                  </span>
                             </div>
                         </th>
                     ))}
@@ -54,40 +58,56 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
         </table>
     );
 };
-export default OrderTable;
 
-export const orderTableColumns: Column<Order>[] = [
+export default PositionTable;
+
+export const positionTableColumns: Column<Position>[] = [
     {
-        Header: 'Order ID',
-        accessor: 'id',
+        Header: 'Orders',
+        accessor: 'orders',
         Cell: ({row}: any) => {
-            // return truncated id, with tooltip to show full id
-            return (
-                <div className="has-tooltip">
-                    <div className="text-stone-800">{row.original.id.substring(0, 8)}</div>
-                </div>
-            )
+            const rootOrder = row.original.orders[0]
+            const orderList = row.original.orders.map((order: any) => {
+                return (
+                    <div className='flex gap-2 items-center' key={order.id}>
+                        <div className={order.side === rootOrder.side ? 'text-success' : 'text-error'}>
+                            {order.side === rootOrder.side ? '+' : '-'}
+                        </div>
+                        <div className='text-sm text-gray-500'>{order.id.substring(0, 8)}</div>
+                        {/*<div className='text-sm text-gray-500'>{order.timestamp}</div>*/}
+                    </div>
+                );
+            })
+            return <div className='flex flex-col gap-1'>{orderList}</div>
         },
-    },
-    {
-        Header: 'Order Type',
-        accessor: 'type',
     },
     {
         Header: 'Side',
         accessor: 'side',
         Cell: ({row}: any) => {
-            let textColor = row.original.side === 'buy' ? 'text-green-500' : 'text-red-500'
+            let textColor = row.original.side === 'buy' ? 'text-success' : 'text-error'
             return <div className={textColor}>{row.original.side}</div>
         },
     },
     {
-        Header: 'Quantity',
-        accessor: 'qty'
+        Header: 'Size',
+        accessor: 'size'
     },
     {
-        Header: 'Price',
-        accessor: 'filled_avg_price'
+        Header: 'Entry Price',
+        accessor: 'average_entry_price',
+    },
+    {
+        Header: 'Exit Price',
+        accessor: 'average_exit_price',
+    },
+    {
+        Header: 'Profit/Loss',
+        accessor: 'pnl',
+        Cell: ({row}: any) => {
+            let textColor = row.original.pnl > 0 ? 'text-success' : 'text-error'
+            return <div className={textColor}>{getMoneyFormat(row.original.pnl)}</div>
+        }
     },
     {
         Header: 'Timestamp',

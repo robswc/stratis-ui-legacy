@@ -128,19 +128,17 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
     })
 
     let convertedOrders: { shape: string; color: string; size: number; time: number & { [Symbol.species]: "UTCTimestamp" }; text: string }[] = []
-    if (orders.length > 0) {
-        console.log('CONVERTING ORDERS')
+    if (orders) {
         convertedOrders = orders.map((d: any) => {
             return {
                 time: (d.timestamp / 1000) as UTCTimestamp,
                 shape: d.side === 'buy' ? 'arrowUp' : 'arrowDown',
-                color: d.side === 'buy' ? getHexFromClass('bg-success') : getHexFromClass('bg-accent'),
+                color: d.side === 'buy' ? getHexFromClass('bg-success') : getHexFromClass('bg-error'),
                 size: 2,
                 position: d.side === 'buy' ? 'belowBar' : 'aboveBar',
                 text: d.id.substring(0, 8)
             }
         })
-        console.log('CONVERTED ORDERS: ', convertedOrders)
     }
 
     let convertedPlots: any[] = []

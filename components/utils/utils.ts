@@ -6,3 +6,7 @@ export const getHexFromClass = (className: string): string => {
     document.body.removeChild(element);
     return backgroundColor;
 };
+
+export const getMoneyFormat = (value: number): string => {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+}
