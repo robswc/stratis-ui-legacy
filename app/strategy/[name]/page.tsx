@@ -50,7 +50,7 @@ export default function StrategyPage({params}: any) {
             strategy: "SMACrossOver",
             parameters: parameters,
             adapter: "CSVAdapter",
-            data: "tests/data/AAPL.csv"
+            data: "tests/data/AAPL_2.csv"
         }
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, {
             method: 'POST',
@@ -64,7 +64,7 @@ export default function StrategyPage({params}: any) {
 
     return (
         <div className='grid grid-cols-4 grid-rows-2 gap-3 px-3'>
-            <Tile title={strategy.name} className={'row-span-2 flex flex-col gap-2'}>
+            <Tile title={strategy.name}>
                 <div className='tile-section'>
                     <h2>Data</h2>
                     {/*@ts-ignore*/}

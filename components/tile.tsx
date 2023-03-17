@@ -1,11 +1,21 @@
 // Includes a title and holds children
 import React from "react";
+import {IoSettings} from "react-icons/all";
 
 export default function Tile({title, children, className}: { title: string, children: React.ReactNode, className?: string }) {
   return (
     <div className={`tile ${className}`}>
-      <h1>{title}</h1>
-      {children}
+      <div className='tile-header card mb-3'>
+          <h1>{title}</h1>
+          <div className='!hover:text-primary text-accent'>
+              <div className='btn px-2 btn-sm'>
+                  <IoSettings />
+              </div>
+          </div>
+      </div>
+      <div>
+          {children}
+      </div>
     </div>
   )
 }

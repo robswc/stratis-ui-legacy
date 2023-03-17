@@ -87,13 +87,13 @@ export const positionTableColumns: Column<Position>[] = [
         Header: 'Side',
         accessor: 'side',
         Cell: ({row}: any) => {
-            let textColor = row.original.side === 'buy' ? 'text-success' : 'text-error'
-            return <div className={textColor}>{row.original.side}</div>
+            let textColor = row.original.orders[0].side === 'buy' ? 'text-success' : 'text-error'
+            return <div className={`${textColor} uppercase`}>{row.original.side}</div>
         },
     },
     {
         Header: 'Size',
-        accessor: 'size'
+        accessor: 'largest_size'
     },
     {
         Header: 'Entry Price',
@@ -113,6 +113,7 @@ export const positionTableColumns: Column<Position>[] = [
     },
     {
         Header: 'Timestamp',
+        accessor: 'opened_timestamp',
         Cell: ({row}: any) => {
             // convert timestamp to local time, and format it with padded zeros
             let opened_timestamp = new Date(row.original.opened_timestamp).toLocaleString('en-US', {

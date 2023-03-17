@@ -138,7 +138,7 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
             return {
                 time: (d.timestamp / 1000) as UTCTimestamp,
                 shape: d.side === 'buy' ? 'arrowUp' : 'arrowDown',
-                color: d.side === 'buy' ? getHexFromClass('bg-success') : getHexFromClass('bg-error'),
+                color: d.side === 'buy' ? getHexFromClass('bg-info') : getHexFromClass('bg-accent'),
                 size: 2,
                 position: d.side === 'buy' ? 'belowBar' : 'aboveBar',
                 text: d.id.substring(0, 8)

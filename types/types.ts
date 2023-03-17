@@ -13,9 +13,11 @@ export interface Position {
     average_entry_price: number;
     average_exit_price: number;
     size: number
+    largest_size: number
     side: string
     pnl: number
-    timestamp: number
+    opened_timestamp: number
+    closed_timestamp: number
 }
 
 export interface Backtest {

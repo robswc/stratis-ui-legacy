@@ -27,6 +27,9 @@
     .tile {
         @apply rounded-box bg-base-100 border-base-content/5 drop-shadow-sm px-3 pt-2 pb-3;
     }
+    .tile-header {
+        @apply flex flex-row bg-base-200 justify-between items-center -mx-3 -mt-2 rounded-b-none px-3 pt-2 pb-1;
+    }
     .tile h1 {
         @apply text-2xl font-black mb-1;
     }
