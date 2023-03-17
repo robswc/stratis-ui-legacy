@@ -17,7 +17,7 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
     const [inputs, setInputs] = useState<Input[]>([]);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/v1/strategy/?name=${name}`).then(res => res.json()).then(data => {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/?name=${name}`).then(res => res.json()).then(data => {
             const parameters = data.parameters;
             const inputs = parameters.map((p: any) => ({ type: p.type, name: p.name, value: p.value }))
             setInputs(inputs);

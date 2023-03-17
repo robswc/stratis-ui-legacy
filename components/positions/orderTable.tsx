@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react';
 import {useTable, Column, useSortBy} from 'react-table';
 import {Order} from "@/types/types";
+import {getMoneyFormat, getOrderTypeAbbreviation} from "@/components/utils/utils";
 
 type TableProps = {
     data: Order[];
@@ -72,13 +73,16 @@ export const orderTableColumns: Column<Order>[] = [
     {
         Header: 'Order Type',
         accessor: 'type',
+        Cell: ({row}: any) => {
+            return <div>{getOrderTypeAbbreviation(row.original.type)}</div>
+        }
     },
     {
         Header: 'Side',
         accessor: 'side',
         Cell: ({row}: any) => {
-            let textColor = row.original.side === 'buy' ? 'text-green-500' : 'text-red-500'
-            return <div className={textColor}>{row.original.side}</div>
+            let textColor = row.original.side === 'buy' ? 'text-success' : 'text-error'
+            return <div className={`${textColor} uppercase`}>{row.original.side}</div>
         },
     },
     {
@@ -87,12 +91,14 @@ export const orderTableColumns: Column<Order>[] = [
     },
     {
         Header: 'Price',
-        accessor: 'filled_avg_price'
+        accessor: 'filled_avg_price',
+        Cell: ({row}: any) => {
+            return <div>{getMoneyFormat(row.original.filled_avg_price)}</div>
+        }
     },
     {
         Header: 'Timestamp',
         accessor: 'timestamp',
-        // add key to cell to prevent react error
         Cell: ({row}: any) => {
             // convert timestamp to local time, and format it with padded zeros
             let timestamp = new Date(row.original.timestamp).toLocaleString('en-US', {

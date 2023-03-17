@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import {useTable, Column, useSortBy} from 'react-table';
 import {Order, Position} from '@/types/types';
 import {getMoneyFormat} from "@/components/utils/utils";
+import {HiOutlineArrowSmLeft, HiOutlineArrowSmRight, ImArrowLeft, ImArrowRight} from "react-icons/all";
 
 type TableProps = {
     data: Position[];
@@ -112,10 +113,9 @@ export const positionTableColumns: Column<Position>[] = [
     },
     {
         Header: 'Timestamp',
-        accessor: 'timestamp',
         Cell: ({row}: any) => {
             // convert timestamp to local time, and format it with padded zeros
-            let timestamp = new Date(row.original.timestamp).toLocaleString('en-US', {
+            let opened_timestamp = new Date(row.original.opened_timestamp).toLocaleString('en-US', {
                 hour12: false,
                 timeZone: 'America/New_York',
                 hour: '2-digit',
@@ -125,7 +125,30 @@ export const positionTableColumns: Column<Position>[] = [
                 month: '2-digit',
                 day: '2-digit'
             })
-            return <div className='text-right'>{timestamp}</div>
+            let closed_timestamp = new Date(row.original.closed_timestamp).toLocaleString('en-US', {
+                hour12: false,
+                timeZone: 'America/New_York',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })
+            return <div className='flex items-end justify-between flex-col'>
+                <div className='flex gap-2 items-center'>
+                    <div className='tooltip' data-tip='First Entered'>
+                        <HiOutlineArrowSmRight className='text-secondary-content' />
+                    </div>
+                    <div>{opened_timestamp}</div>
+                </div>
+                <div className='flex gap-2 items-center'>
+                    <div className='tooltip' data-tip='Last Exit'>
+                        <HiOutlineArrowSmLeft className='text-secondary-content' />
+                    </div>
+                    <div>{closed_timestamp}</div>
+                </div>
+            </div>
         },
     }
 ];

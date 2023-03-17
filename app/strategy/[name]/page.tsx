@@ -35,7 +35,7 @@ export default function StrategyPage({params}: any) {
     // axios post request to get data
     function getData(adapter: string, data: string) {
         axios.get(
-            `http://127.0.0.1:8000/api/v1/data/?adapter=${adapter}&data=${data}`,
+            `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`,
         ).then(res => {
             setData(res.data)
         }
@@ -52,7 +52,7 @@ export default function StrategyPage({params}: any) {
             adapter: "CSVAdapter",
             data: "tests/data/AAPL.csv"
         }
-        fetch(`http://127.0.0.1:8000/api/v1/strategy/`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(testData),
