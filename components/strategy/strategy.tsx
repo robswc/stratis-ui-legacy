@@ -1,6 +1,6 @@
 'use client'
 import {useEffect, useState} from 'react';
-import {Controller, FormProvider, useForm, useFormContext} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
 interface Input {
     name: string;
