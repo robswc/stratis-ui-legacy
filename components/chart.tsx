@@ -48,6 +48,11 @@ export const ChartComponent = props => {
             });
             chart.timeScale().fitContent();
 
+            // set the time axis format
+            chart.timeScale().applyOptions({
+                timeVisible: true,
+            });
+
             // handle OHLC
             if (ohlc) {
                 const newSeries = chart.addCandlestickSeries({
