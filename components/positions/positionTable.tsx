@@ -25,11 +25,12 @@ const PositionTable: React.FC<TableProps> = ({data, columns}) => {
     return (
         <table {...getTableProps()} className='table table-zebra w-full'>
             <thead>
-            {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className=''>
-                    {headerGroup.headers.map((column) => (
+            {headerGroups.map((headerGroup, index) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={index} className=''>
+                    {headerGroup.headers.map((column, index) => (
                         // @ts-ignore
                         <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                            key={index}
                             className='text-left cursor-pointer'>
                             <div className='btn btn-ghost btn-sm text-bold'>
                                 {column.render('Header')}
@@ -44,12 +45,12 @@ const PositionTable: React.FC<TableProps> = ({data, columns}) => {
             ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map((row, index) => {
                 prepareRow(row);
                 return (
-                    <tr {...row.getRowProps()} className='text-sm'>
+                    <tr {...row.getRowProps()} key={index} className='text-sm'>
                         {row.cells.map((cell) => (
-                            <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            <td {...cell.getCellProps()} key={index}>{cell.render('Cell')}</td>
                         ))}
                     </tr>
                 );

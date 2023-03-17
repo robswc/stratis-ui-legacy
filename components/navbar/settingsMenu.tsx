@@ -47,9 +47,10 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
 
     const themeValues = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
 
-    const themePreviews = themeValues.map((theme) => {
+    // add index, key to prevent react warning
+    const themePreviews = themeValues.map((theme, index) => {
         return (
-            <div className="flex flex-col gap-2">
+            <div key={index} className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center">
                     <button className='btn btn-ghost h-24' data-set-theme={theme} onClick={() => setTheme(theme)}>
                         {themePreview(theme)}
@@ -65,7 +66,6 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
     return (
         <div className={containerClass}>
             <div className='flex items-center gap-2' style={{zIndex: 20}}>
-
                 <button onClick={() => setToggle(!toggle)} className={`btn btn-ghost ${toggle ? 'btn-active rounded-tr-2xl rounded-br-none rounded-tl-none border-secondary' : ''}`}>
                     <div>Settings</div>
                     <MdSettings className='w-8 h-8'/>

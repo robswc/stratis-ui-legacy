@@ -24,11 +24,11 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
     return (
         <table {...getTableProps()} className='table table-zebra w-full'>
             <thead>
-            {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className=''>
-                    {headerGroup.headers.map((column) => (
+            {headerGroups.map((headerGroup, index) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                    {headerGroup.headers.map((column, index) => (
                         // @ts-ignore
-                        <th {...column.getHeaderProps(column.getSortByToggleProps())} className='text-left cursor-pointer'>
+                        <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index} className='text-left cursor-pointer'>
                             <div className='btn btn-ghost btn-sm text-bold'>
                                 {column.render('Header')}
                                 {/*@ts-ignore*/}
@@ -40,12 +40,12 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
             ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map((row, index) => {
                 prepareRow(row);
                 return (
-                    <tr {...row.getRowProps()} className='text-sm'>
-                        {row.cells.map((cell) => (
-                            <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    <tr {...row.getRowProps()} key={index} className='text-sm'>
+                        {row.cells.map((cell, index) => (
+                            <td {...cell.getCellProps()} key={index}>{cell.render('Cell')}</td>
                         ))}
                     </tr>
                 );
@@ -92,6 +92,7 @@ export const orderTableColumns: Column<Order>[] = [
     {
         Header: 'Timestamp',
         accessor: 'timestamp',
+        // add key to cell to prevent react error
         Cell: ({row}: any) => {
             // convert timestamp to local time, and format it with padded zeros
             let timestamp = new Date(row.original.timestamp).toLocaleString('en-US', {

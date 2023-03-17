@@ -8,26 +8,6 @@ import axios from "axios";
 import BacktestResults from "@/components/positions/backtestResults";
 import {Backtest, Order} from "@/types/types";
 
-export async function getStrategy(name: string) {
-    const res = await fetch(`http://127.0.0.1:8000/api/v1/strategy/?name=${name}`, {next: {revalidate: 5}})
-    if (!res.ok) {
-        throw new Error('Failed to fetch data');
-    } else {
-        return res.json();
-    }
-}
-
-export async function getData(adapter: string, data: string) {
-    "use client"
-    const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/data/?adapter=${adapter}&data=${data}`, {next: {revalidate: 5}}
-    )
-    if (!res.ok) {
-        throw new Error('Failed to fetch data');
-    } else {
-        return res.json();
-    }
-}
 
 interface Plot {
     name: string;
