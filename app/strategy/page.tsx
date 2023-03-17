@@ -1,12 +1,14 @@
-"use client"
 import Link from "next/link";
 async function getStrategies() {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/strategy/strategy');
+    const res = await fetch(`http://127.0.0.1:8000/api/v1/strategy/strategy`);
     if (!res.ok) {
-        throw new Error('Failed to fetch data');
+        console.error(res)
+        return [];
+    } else {
+        console.log(res)
+        return res.json();
     }
-    console.log(res)
-    return res.json();
+
 }
 
 
