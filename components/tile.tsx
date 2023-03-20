@@ -2,6 +2,14 @@
 import React from "react";
 import {IoSettings} from "react-icons/all";
 
+export function TileSection({title, children, className}: { title: string, children: React.ReactNode, className?: string }) {
+    return <div className='tile-section'>
+        <h2 className='mb-2'>{title}</h2>
+        <>
+            {children}
+        </>
+    </div>
+}
 export default function Tile({title, children, className}: { title: string, children: React.ReactNode, className?: string }) {
   return (
     <div className={`tile ${className}`}>

@@ -14,6 +14,7 @@ interface Input {
 
 function StrategyForm({ name, runCallback }: { name: string, runCallback: (data: any) => void }) {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [autoRun, setAutoRun] = useState(false);
     const [inputs, setInputs] = useState<Input[]>([]);
 
     useEffect(() => {
@@ -28,6 +29,14 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
         runCallback(data);
     };
 
+    const convertToObject = (inputs: Input[]) => {
+        const obj: any = {};
+        inputs.forEach(input => {
+            obj[input.name] = input.value;
+        });
+        return obj;
+    }
+
     const renderInputs = () => {
         return inputs.map((input, index) => {
             const { type, name, value } = input;
@@ -36,8 +45,8 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
             return (
                 <div key={index} className='flex items-center justify-between gap-3'>
                     <div>
-                        <div className='text-secondary-content'>{name}</div>
-                        <div className='text-opacity-50 text-neutral-content italic'>type : {jsType}</div>
+                        <div className='text-info'>{name}</div>
+                        <div className='opacity-50 italic'>type : {jsType}</div>
                     </div>
                     <input
                         {...register(name, options)}
@@ -45,12 +54,14 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
                         className='input input-bordered w-24 text-lg'
 
                         onChange={(e) => {
-                            // add a small delay in future, if user is typing to avoid multiple requests
-                            const newInputs = [...inputs];
-                            const newValue = jsType === 'number' ? Number(e.target.value) : e.target.value;
-                            newInputs[index] = { ...newInputs[index], value: newValue };
-                            setInputs(newInputs);
-                            runCallback(newInputs);
+                            if (autoRun) {
+                                // add a small delay in future, if user is typing to avoid multiple requests
+                                const newInputs = [...inputs];
+                                const newValue = jsType === 'number' ? Number(e.target.value) : e.target.value;
+                                newInputs[index] = { ...newInputs[index], value: newValue };
+                                setInputs(newInputs);
+                                runCallback(convertToObject(newInputs));
+                            }
                         }}
 
                     />
@@ -66,7 +77,7 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
                 <div className='form-control gap-2'>
                     <label className="label cursor-pointer">
                         <span className="label-text pr-2">Auto Run</span>
-                        <input type="checkbox" className="toggle toggle-info" />
+                        <input checked={autoRun} type="checkbox" className="toggle toggle-info" onChange={() => setAutoRun(!autoRun)}/>
                     </label>
                 </div>
                 <div className='flex-grow'>

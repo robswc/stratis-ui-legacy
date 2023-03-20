@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import {useTable, Column, useSortBy} from 'react-table';
 import {Order} from "@/types/types";
 import {getMoneyFormat, getOrderTypeAbbreviation} from "@/components/utils/utils";
+import {TbTableExport} from "react-icons/all";
 
 type TableProps = {
     data: Order[];
@@ -37,6 +38,9 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
                             </div>
                         </th>
                     ))}
+                    <div className='-ml-14 btn btn-info btn-sm text-3xl mt-4 px-1' style={{zIndex: 99}}>
+                        <TbTableExport />
+                    </div>
                 </tr>
             ))}
             </thead>
@@ -65,7 +69,7 @@ export const orderTableColumns: Column<Order>[] = [
             // return truncated id, with tooltip to show full id
             return (
                 <div className="has-tooltip">
-                    <div className="text-stone-800">{row.original.id.substring(0, 8)}</div>
+                    <div className="">{row.original.id.substring(0, 8)}</div>
                 </div>
             )
         },

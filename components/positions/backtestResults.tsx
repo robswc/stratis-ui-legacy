@@ -14,10 +14,6 @@ function Stat({label, value, type}: {label: string, value: string, type: string}
         newValue = parseInt(value).toString()
     }
 
-    console.log('newValue', newValue)
-    console.log('value', value)
-    console.log('type', type)
-
     return (
         <div className='stat hover:bg-base-200'>
             <div className='stat-title'>{label}</div>
@@ -59,6 +55,7 @@ export default function BacktestResults({backtest}: {backtest: Backtest}) {
                 <Tab className='tab tab-bordered'>Overview</Tab>
                 <Tab className='tab tab-bordered'><div className='flex items-center gap-2'><div>Positions</div>{renderPositionCount}</div></Tab>
                 <Tab className='tab tab-bordered'><div className='flex items-center gap-2'><div>Orders</div>{renderOrderCount}</div></Tab>
+                <Tab className='tab tab-bordered'>Order Inspector</Tab>
             </TabList>
             <TabPanel>
                 <div className='stats shadow w-full transition-all'>
@@ -70,6 +67,9 @@ export default function BacktestResults({backtest}: {backtest: Backtest}) {
             </TabPanel>
             <TabPanel>
                 {backtest ? <OrderTable data={backtest.orders} columns={orderTableColumns}/> : <div>no orders</div>}
+            </TabPanel>
+            <TabPanel>
+                Coming soon!
             </TabPanel>
         </Tabs>
     )

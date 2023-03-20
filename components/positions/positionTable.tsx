@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {useTable, Column, useSortBy} from 'react-table';
 import {Order, Position} from '@/types/types';
 import {getMoneyFormat} from "@/components/utils/utils";
-import {HiOutlineArrowSmLeft, HiOutlineArrowSmRight, ImArrowLeft, ImArrowRight} from "react-icons/all";
+import {HiOutlineArrowSmLeft, HiOutlineArrowSmRight, ImArrowLeft, ImArrowRight, TbTableExport} from "react-icons/all";
 
 type TableProps = {
     data: Position[];
@@ -24,40 +24,42 @@ const PositionTable: React.FC<TableProps> = ({data, columns}) => {
     const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = tableInstance;
 
     return (
-        <table {...getTableProps()} className='table table-zebra w-full'>
-            <thead>
-            {headerGroups.map((headerGroup, index) => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={index} className=''>
-                    {headerGroup.headers.map((column, index) => (
-                        // @ts-ignore
-                        <th {...column.getHeaderProps(column.getSortByToggleProps())}
-                            key={index}
-                            className='text-left cursor-pointer'>
-                            <div className='btn btn-ghost btn-sm text-bold'>
-                                {column.render('Header')}
-                                <span className='ml-1'>
-                                    {/*@ts-ignore*/}
-                                    {column.isSorted ? column.isSortedDesc ? '(descending)' : '(ascending)' : ''}
-                  </span>
-                            </div>
-                        </th>
-                    ))}
-                </tr>
-            ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-            {rows.map((row, index) => {
-                prepareRow(row);
-                return (
-                    <tr {...row.getRowProps()} key={index} className='text-sm'>
-                        {row.cells.map((cell) => (
-                            <td {...cell.getCellProps()} key={index}>{cell.render('Cell')}</td>
+        <>
+            <table {...getTableProps()} className='table table-zebra w-full'>
+                <thead>
+                {headerGroups.map((headerGroup, index) => (
+                    <tr {...headerGroup.getHeaderGroupProps()} key={index} className='items-center'>
+                        {headerGroup.headers.map((column, index) => (
+                            // @ts-ignore
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                key={index}
+                                className='text-left cursor-pointer'>
+                                <div className='btn btn-ghost btn-sm text-bold'>
+                                    {column.render('Header')}
+                                    <span className='ml-1'>
+                                        {/*@ts-ignore*/}
+                                        {column.isSorted ? column.isSortedDesc ? '(descending)' : '(ascending)' : ''}
+                                    </span>
+                                </div>
+                            </th>
                         ))}
                     </tr>
-                );
-            })}
-            </tbody>
-        </table>
+                ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                {rows.map((row, index) => {
+                    prepareRow(row);
+                    return (
+                        <tr {...row.getRowProps()} key={index} className='text-sm'>
+                            {row.cells.map((cell) => (
+                                <td {...cell.getCellProps()} key={index}>{cell.render('Cell')}</td>
+                            ))}
+                        </tr>
+                    );
+                })}
+                </tbody>
+            </table>
+        </>
     );
 };
 
@@ -75,7 +77,7 @@ export const positionTableColumns: Column<Position>[] = [
                         <div className={order.side === rootOrder.side ? 'text-success' : 'text-error'}>
                             {order.side === rootOrder.side ? '+' : '-'}
                         </div>
-                        <div className='text-sm text-gray-500'>{order.id.substring(0, 8)}</div>
+                        <div className='text-sm opacity-50'>{order.id.substring(0, 8)}</div>
                         {/*<div className='text-sm text-gray-500'>{order.timestamp}</div>*/}
                     </div>
                 );
@@ -139,13 +141,13 @@ export const positionTableColumns: Column<Position>[] = [
             return <div className='flex items-end justify-between flex-col'>
                 <div className='flex gap-2 items-center'>
                     <div className='tooltip' data-tip='First Entered'>
-                        <HiOutlineArrowSmRight className='text-secondary-content' />
+                        <HiOutlineArrowSmRight className='text-info'/>
                     </div>
                     <div>{opened_timestamp}</div>
                 </div>
                 <div className='flex gap-2 items-center'>
                     <div className='tooltip' data-tip='Last Exit'>
-                        <HiOutlineArrowSmLeft className='text-secondary-content' />
+                        <HiOutlineArrowSmLeft className='text-info'/>
                     </div>
                     <div>{closed_timestamp}</div>
                 </div>

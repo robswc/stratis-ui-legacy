@@ -16,7 +16,7 @@ const StrategyParameterElement = ({parameter}: any) => {
     return (
         <div className='flex flex-row gap-2 items-center'>
             <div className='text-md italic'>{parameter.name}</div>
-            <div className='text-accent text-sm'>{parameter.value}</div>
+            <div className='text-neutral-focus text-sm'>{parameter.value}</div>
         </div>
     )
 }

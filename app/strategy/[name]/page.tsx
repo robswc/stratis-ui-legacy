@@ -1,5 +1,5 @@
 "use client"
-import Tile from "@/components/tile";
+import Tile, {TileSection} from "@/components/tile";
 import {Chart} from "@/components/chart";
 import StrategyForm from "@/components/strategy/strategy";
 import DataForm from "@/components/data/data";
@@ -33,50 +33,52 @@ export default function StrategyPage({params}: any) {
     }, [response])
 
     // axios post request to get data
-    function getData(adapter: string, data: string) {
+    function getAndSetData(adapter: string, data: string) {
         axios.get(
             `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`,
         ).then(res => {
-            setData(res.data)
-        }
+                setData(res.data)
+            }
         )
     }
 
 
-    async function runStrategy(data: any) {
-        let parameters = data
-        console.log('params', parameters)
+    async function runStrategy(parameters: any) {
+        console.log('recieved parameters', parameters)
         let testData = {
-            strategy: "SMACrossOver",
+            strategy: strategy.name,
             parameters: parameters,
             adapter: "CSVAdapter",
             data: "tests/data/AAPL_2.csv"
         }
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(testData),
-        }).then(res => res.json()).then(data => {
-            setResponse(data)
-        })
+        // use axios instead
+        axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, testData)
+            .then(res => {
+                setResponse(res.data)
+            })
+            .catch(
+                err => {
+                    console.log(err)
+                    console.error(err.response.data.detail)
+                }
+            )
 
     }
 
     return (
         <div className='grid grid-cols-4 grid-rows-2 gap-3 px-3'>
             <Tile title={strategy.name}>
-                <div className='tile-section'>
-                    <h2>Data</h2>
-                    {/*@ts-ignore*/}
-                    <DataForm onSubmit={getData}/>
-                </div>
-                <div className='tile-section'>
-                    <h2>Parameters</h2>
+                <TileSection title={'Data'}>
+                    <div className='-mt-2'>
+                        <DataForm onSubmit={getAndSetData}/>
+                    </div>
+                </TileSection>
+                <TileSection title={'Parameters'}>
                     <StrategyForm name={strategy.name} runCallback={runStrategy}/>
-                </div>
+                </TileSection>
             </Tile>
             <div className='col-span-3 flex flex-col gap-3'>
-                <Tile title={'Chart'} >
+                <Tile title={'Chart'}>
                     <Chart
                         ohlc={data}
                         plots={response.backtest ? response.plots : []}

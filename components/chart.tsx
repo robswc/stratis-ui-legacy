@@ -135,13 +135,15 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
     let convertedOrders: { shape: string; color: string; size: number; time: number & { [Symbol.species]: "UTCTimestamp" }; text: string }[] = []
     if (orders) {
         convertedOrders = orders.map((d: any) => {
+            const price = d.filled_avg_price.toFixed(2)
+            const str = `${d.qty} @ ${price} (${d.id.substring(0, 4)})`
             return {
                 time: (d.timestamp / 1000) as UTCTimestamp,
                 shape: d.side === 'buy' ? 'arrowUp' : 'arrowDown',
                 color: d.side === 'buy' ? getHexFromClass('bg-info') : getHexFromClass('bg-accent'),
                 size: 2,
                 position: d.side === 'buy' ? 'belowBar' : 'aboveBar',
-                text: d.id.substring(0, 8)
+                text: str,
             }
         })
     }
