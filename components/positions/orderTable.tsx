@@ -3,6 +3,7 @@ import {useTable, Column, useSortBy} from 'react-table';
 import {Order} from "@/types/types";
 import {getMoneyFormat, getOrderTypeAbbreviation} from "@/components/utils/utils";
 import {TbTableExport} from "react-icons/all";
+import { CSVLink, CSVDownload } from "react-csv";
 
 type TableProps = {
     data: Order[];
@@ -12,6 +13,16 @@ type TableProps = {
 const OrderTable: React.FC<TableProps> = ({data, columns}) => {
     const tableData = useMemo(() => data, [data]);
     const tableColumns = useMemo(() => columns, [columns]);
+
+    const exportCSV = (csvData: Order[], fileName: string) => {
+        return (
+            <div className='-ml-14 btn btn-info btn-sm text-3xl mt-4 px-1 tooltip' style={{zIndex: 99}} data-tip={'Export'}>
+                <CSVLink data={csvData} filename={fileName}>
+                    <TbTableExport/>
+                </CSVLink>
+            </div>
+        )
+    }
 
     const tableInstance = useTable<Order>(
         {
@@ -38,9 +49,7 @@ const OrderTable: React.FC<TableProps> = ({data, columns}) => {
                             </div>
                         </th>
                     ))}
-                    <div className='-ml-14 btn btn-info btn-sm text-3xl mt-4 px-1' style={{zIndex: 99}}>
-                        <TbTableExport />
-                    </div>
+                    {exportCSV(data, 'orders.csv')}
                 </tr>
             ))}
             </thead>

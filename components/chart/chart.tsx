@@ -1,11 +1,23 @@
 'use client'
-import {createChart, ColorType, UTCTimestamp, LineStyle} from 'lightweight-charts';
-import React, { useEffect, useRef } from 'react';
-import {Order} from "@/types/types";
+import {ColorType, createChart, TimeRange, UTCTimestamp} from 'lightweight-charts';
+import React, {useEffect, useRef, useState} from 'react';
 import {getHexFromClass} from "@/components/utils/utils";
+import {DiGoogleAnalytics} from "react-icons/all";
+import {convertedOHLC, convertedOrders, convertedPlots} from "@/components/chart/utils";
+import {Order} from "@/types/types";
 
-// @ts-ignore
-export const ChartComponent = props => {
+
+const awaitingData = (
+    <div className="h-96 flex flex-col items-center justify-center">
+        <div className='flex items-center w-full justify-center animate-pulse'>
+            <DiGoogleAnalytics className='text-8xl'/>
+            <div className='text-3xl'>waiting for data</div>
+        </div>
+        <div>see the <a className='underline' href={'https://github.com/robswc/stratis/wiki/Data'}>wiki</a> to learn more about data</div>
+    </div>
+)
+
+export const LightWeightChart = (props: any) => {
     const {
         ohlc,
         plots,
@@ -165,11 +177,15 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
 
     return (
         <div className={`${className} overflow-hidden rounded-lg pr-3`}>
-            <ChartComponent
-                ohlc={convertedOHLC}
-                plots={convertedPlots}
-                orders={convertedOrders}>
-            </ChartComponent>
+            {
+                ohlc.length > 0 ? (
+                    <LightWeightChart
+                    ohlc={convertedOHLC}
+                    plots={convertedPlots}
+                    orders={convertedOrders}>
+                </LightWeightChart>
+                ) : (awaitingData)
+            }
         </div>
     );
 }

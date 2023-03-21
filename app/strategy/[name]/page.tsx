@@ -1,6 +1,6 @@
 "use client"
 import Tile, {TileSection} from "@/components/tile";
-import {Chart} from "@/components/chart";
+import {Chart} from "@/components/chart/chart";
 import StrategyForm from "@/components/strategy/strategy";
 import DataForm from "@/components/data/data";
 import {useEffect, useState} from "react";
@@ -23,7 +23,7 @@ export default function StrategyPage({params}: any) {
 
     const [strategy, setStrategy] = useState({name: params.name, parameters: []});
     const [dataConfig, setDataConfig] = useState({});
-    const [data, setData] = useState([]);
+    const [ohlc, setOhlc] = useState([]);
     // initial state is an empty StrategyResponse
     const [response, setResponse] = useState({} as StrategyResponse);
 
@@ -37,7 +37,7 @@ export default function StrategyPage({params}: any) {
         axios.get(
             `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`,
         ).then(res => {
-                setData(res.data)
+                setOhlc(res.data)
             }
         )
     }
@@ -65,6 +65,11 @@ export default function StrategyPage({params}: any) {
 
     }
 
+    const testData = [
+        { time: '2021-01-01', value: 50 },
+        { time: '2021-01-02', value: 53 },
+    ];
+
     return (
         <div className='grid grid-cols-4 grid-rows-2 gap-3 px-3'>
             <Tile title={strategy.name}>
@@ -80,7 +85,7 @@ export default function StrategyPage({params}: any) {
             <div className='col-span-3 flex flex-col gap-3'>
                 <Tile title={'Chart'}>
                     <Chart
-                        ohlc={data}
+                        ohlc={ohlc}
                         plots={response.backtest ? response.plots : []}
                         orders={response.backtest ? response.backtest.orders : []}
                         className='shadow-sm'
