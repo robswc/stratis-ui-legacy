@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
+    "react-markdown": "^8.0.6",
     "react-table": "^7.8.0",
     "react-tabs": "^6.0.0",
     "theme-change": "^2.5.0",

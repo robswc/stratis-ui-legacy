@@ -22,7 +22,7 @@ type StrategyResponse = {
 export default function StrategyPage({params}: any) {
 
     const [strategy, setStrategy] = useState({name: params.name, parameters: []});
-    const [dataConfig, setDataConfig] = useState({});
+    const [dataConfig, setDataConfig] = useState({adapter: '', data: ''});
     const [ohlc, setOhlc] = useState([]);
     // initial state is an empty StrategyResponse
     const [response, setResponse] = useState({} as StrategyResponse);
@@ -37,6 +37,8 @@ export default function StrategyPage({params}: any) {
         const url = `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`
         axios.get(url).then(res => {
                 setOhlc(res.data)
+                setDataConfig({adapter: adapter, data: data})
+                runStrategy(strategy.parameters).then(r => {})
             }
         )
     }
@@ -44,11 +46,12 @@ export default function StrategyPage({params}: any) {
 
     async function runStrategy(parameters: any) {
         console.log('recieved parameters', parameters)
+        console.log('current data config', dataConfig)
         let testData = {
             strategy: strategy.name,
             parameters: parameters,
-            adapter: "CSVAdapter",
-            data: "tests/data/AAPL_2.csv"
+            adapter: dataConfig.adapter,
+            data: dataConfig.data
         }
         // use axios instead
         axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, testData)
@@ -74,7 +77,7 @@ export default function StrategyPage({params}: any) {
             <Tile title={strategy.name}>
                 <TileSection title={'Data'}>
                     <div className='-mt-2'>
-                        <DataForm onSubmit={getAndSetData}/>
+                        <DataForm onSubmit={getAndSetData} />
                     </div>
                 </TileSection>
                 <TileSection title={'Parameters'}>

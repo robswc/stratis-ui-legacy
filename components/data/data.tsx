@@ -25,13 +25,16 @@ function DaisyInput(props: DaisyInputProps) {
             render={({ field }) => (
                 <label className="input-group">
                     <span>{label}</span>
-                    <input {...field} type="text" placeholder={placeholder} className="input input-bordered w-full" />
+                    <input {...field}
+                           type="text"
+                           placeholder={placeholder}
+                           className="input input-bordered w-full"
+                    />
                 </label>
             )}
         />
     )
     if (props.type === 'select') {
-        console.log('select', props.selectOptions);
         controllerElement = (
             <Controller
                 name={name}
@@ -67,6 +70,10 @@ function DataForm({onSubmit}: { onSubmit: any }) {
     const methods = useForm();
     const [adapterOptions, setAdapterOptions] = useState([]);
 
+    const onSubmitHandler = (data: any) => {
+        onSubmit(data.adapter, data.data);
+    };
+
     useEffect(() => {
         const url = `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/adapters`
         axios.get(url).then(res => {
@@ -76,13 +83,12 @@ function DataForm({onSubmit}: { onSubmit: any }) {
         })
     }, []);
 
-    const onSubmitHandler = (data: any) => {
-        onSubmit(data.adapter, data.data);
-    };
-
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmitHandler)} className='flex flex-col gap-6'>
+            <form
+                onSubmit={methods.handleSubmit(onSubmitHandler)}
+                className='flex flex-col gap-6'
+            >
                 <div className='form-control'>
                     <DaisyInput
                         name={'adapter'}
