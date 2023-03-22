@@ -68,7 +68,8 @@ function DataForm({onSubmit}: { onSubmit: any }) {
     const [adapterOptions, setAdapterOptions] = useState([]);
 
     useEffect(() => {
-        axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/v1/data/adapters/`).then(res => {
+        const url = `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/adapters`
+        axios.get(url).then(res => {
             setAdapterOptions(res.data);
         }).catch(err => {
             console.log(err);

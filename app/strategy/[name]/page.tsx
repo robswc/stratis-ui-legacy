@@ -34,9 +34,8 @@ export default function StrategyPage({params}: any) {
 
     // axios post request to get data
     function getAndSetData(adapter: string, data: string) {
-        axios.get(
-            `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`,
-        ).then(res => {
+        const url = `${process.env.NEXT_PUBLIC_HOST}/api/v1/data/?adapter=${adapter}&data=${data}`
+        axios.get(url).then(res => {
                 setOhlc(res.data)
             }
         )
