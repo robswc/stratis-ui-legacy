@@ -5,7 +5,6 @@ import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 
 export default function SettingsMenu({themeCallback}: { themeCallback: (theme: string) => void }) {
 
-    const [toggle, setToggle] = useState(false);
     const [theme, setTheme] = useState('light');
 
     useEffect(() => {
@@ -60,21 +59,13 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
         )
     })
 
-    const containerBg = toggle ? 'bg-base-300' : ''
-    const containerClass = `flex flex-col gap-2 justify-center items-end`
-
     return (
-        <div className={containerClass}>
-            <div className='flex items-center gap-2' style={{zIndex: 20}}>
-                <button onClick={() => setToggle(!toggle)} className={`btn btn-ghost ${toggle ? 'btn-active rounded-tr-2xl rounded-br-none rounded-tl-none border-secondary' : ''}`}>
-                    <div>Settings</div>
-                    <MdSettings className='w-8 h-8'/>
-                </button>
-            </div>
-
-            <div
-                className={`absolute pt-8 mt-2 ${toggle ? 'display' : 'hidden'} bg-base-300 card drop-shadow-lg border-white border-2`}
-                style={{width: toggle ? 860 : 0, zIndex: 10, top: 0}}>
+        <div className="dropdown dropdown-end px-2">
+            <label tabIndex={0} className="btn btn-ghost flex gap-2 items-center">
+                <div>Settings</div>
+                <MdSettings className='w-8 h-8'/>
+            </label>
+            <div tabIndex={0} className="dropdown-content menu p-2 drop-shadow-2xl bg-base-100 rounded-box" style={{width: 900}}>
                 <Tabs className='p-4'>
                     <TabList className='flex gap-2 tabs'>
                         <Tab className='tab'>Themes</Tab>
@@ -91,7 +82,6 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
                     </TabPanel>
                 </Tabs>
             </div>
-
         </div>
     )
 }

@@ -19,7 +19,7 @@ export default function Navbar() {
     }, [theme])
 
     return (
-        <div className='bg-base-100 shadow-2xl border-b-accent border-b-4 flex justify-between px-2'>
+        <div className='bg-base-100 shadow-2xl border-b-accent border-b-4 flex justify-between px-2 items-center'>
             <Logo textColor={primaryColor} haloColor={secondaryColor}/>
             <SettingsMenu themeCallback={setTheme}/>
         </div>
