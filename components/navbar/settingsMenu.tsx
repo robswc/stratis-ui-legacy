@@ -1,6 +1,7 @@
 import {MdSettings} from "react-icons/all";
 import React, {useEffect, useState} from "react";
 import {themeChange} from "theme-change";
+import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 
 export default function SettingsMenu({themeCallback}: { themeCallback: (theme: string) => void }) {
 
@@ -44,8 +45,7 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
             </div>
         )
     }
-
-    const themeValues = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
+    const themeValues = ["light", "dark", "bumblebee", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
 
     // add index, key to prevent react warning
     const themePreviews = themeValues.map((theme, index) => {
@@ -75,12 +75,21 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
             <div
                 className={`absolute pt-8 mt-2 ${toggle ? 'display' : 'hidden'} bg-base-300 card drop-shadow-lg border-white border-2`}
                 style={{width: toggle ? 860 : 0, zIndex: 10, top: 0}}>
-                <div className='p-2'>
-                    <div>Themes</div>
-                    <div className='grid grid-cols-4 gap-4 card bg-base-100 p-1'>
-                        {themePreviews}
-                    </div>
-                </div>
+                <Tabs className='p-4'>
+                    <TabList className='flex gap-2 tabs'>
+                        <Tab className='tab'>Themes</Tab>
+                        <Tab className='tab'>Backend</Tab>
+                    </TabList>
+                    <TabPanel>
+                        <div className='grid grid-cols-4 gap-2 card bg-base-100 p-1'>
+                            {themePreviews}
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <h2>Set backend URL</h2>
+                        <div></div>
+                    </TabPanel>
+                </Tabs>
             </div>
 
         </div>
