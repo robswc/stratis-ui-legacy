@@ -12,10 +12,10 @@ export const metadata = {
 function MOTDBanner() {
 
     // check that motd.md exists
-    if (!fs.existsSync('motd.md')) {
+    if (!fs.existsSync('public/motd.md')) {
         return null
     }
-    const motd = fs.readFileSync('motd.md', 'utf8')
+    const motd = fs.readFileSync('public/motd.md', 'utf8')
 
     if (motd !== '') {
         return (
