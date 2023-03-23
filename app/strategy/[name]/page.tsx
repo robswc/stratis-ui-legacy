@@ -24,8 +24,9 @@ export default function StrategyPage({params}: any) {
     const [strategy, setStrategy] = useState({name: params.name, parameters: []});
     const [dataConfig, setDataConfig] = useState({adapter: '', data: ''});
     const [ohlc, setOhlc] = useState([]);
+    const [chartSettings, setChartSettings] = useState({timezone: null});
     // initial state is an empty StrategyResponse
-    const [response, setResponse] = useState({} as StrategyResponse);
+    const [response, setResponse] = useState<StrategyResponse>({} as StrategyResponse);
 
 
     useEffect(() => {
@@ -38,24 +39,25 @@ export default function StrategyPage({params}: any) {
         axios.get(url).then(res => {
                 setOhlc(res.data)
                 setDataConfig({adapter: adapter, data: data})
-                runStrategy(strategy.parameters).then(r => {})
+                runStrategy(strategy.parameters).then(r => {
+                })
             }
         )
     }
 
-
     async function runStrategy(parameters: any) {
         console.log('recieved parameters', parameters)
         console.log('current data config', dataConfig)
-        let testData = {
+        const runRequest = {
             strategy: strategy.name,
             parameters: parameters,
             adapter: dataConfig.adapter,
             data: dataConfig.data
         }
         // use axios instead
-        axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, testData)
+        axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/v1/strategy/`, runRequest)
             .then(res => {
+                console.log('Run strategy response', res.data)
                 setResponse(res.data)
             })
             .catch(
@@ -64,20 +66,25 @@ export default function StrategyPage({params}: any) {
                     console.error(err.response.data.detail)
                 }
             )
-
     }
 
-    const testData = [
-        { time: '2021-01-01', value: 50 },
-        { time: '2021-01-02', value: 53 },
-    ];
+    const renderedChartElement = () => {
+        return (
+            <Chart
+                ohlc={ohlc}
+                plots={response.plots ? response.plots : []}
+                orders={response.backtest ? response.backtest.orders : []}
+                className='shadow-sm'
+            />
+        )
+    }
 
     return (
         <div className='grid grid-cols-4 grid-rows-2 gap-3 px-3'>
             <Tile title={strategy.name}>
                 <TileSection title={'Data'}>
                     <div className='-mt-2'>
-                        <DataForm onSubmit={getAndSetData} />
+                        <DataForm onSubmit={getAndSetData}/>
                     </div>
                 </TileSection>
                 <TileSection title={'Parameters'}>
@@ -86,12 +93,7 @@ export default function StrategyPage({params}: any) {
             </Tile>
             <div className='col-span-3 flex flex-col gap-3'>
                 <Tile title={'Chart'}>
-                    <Chart
-                        ohlc={ohlc}
-                        plots={response.backtest ? response.plots : []}
-                        orders={response.backtest ? response.backtest.orders : []}
-                        className='shadow-sm'
-                    />
+                    {renderedChartElement()}
                 </Tile>
                 <Tile title={'BacktestResults'}>
                     <BacktestResults backtest={response.backtest}/>

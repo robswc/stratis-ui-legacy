@@ -44,7 +44,7 @@ export default function SettingsMenu({themeCallback}: { themeCallback: (theme: s
             </div>
         )
     }
-    const themeValues = ["light", "dark", "bumblebee", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
+    const themeValues = ["bloomberg", "light", "dark", "bumblebee", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
 
     // add index, key to prevent react warning
     const themePreviews = themeValues.map((theme, index) => {

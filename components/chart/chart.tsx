@@ -91,14 +91,6 @@ export const LightWeightChart = (props: any) => {
                         color: plot.color,
                         lineWidth: plot.lineWidth,
                         lineStyle: plot.lineStyle,
-                        // priceFormat: {
-                        //     type: 'custom',
-                        //     // @ts-ignore
-                        //     precision: 2,
-                        //     formatter: (price: number) => {
-                        //         return price.toFixed(2);
-                        //     },
-                        // },
                     });
                     // add data
                     newSeries.setData(plot.data);
@@ -128,8 +120,9 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
     let convertedOHLC: never[] = []
     if (ohlc.length > 0) {
         convertedOHLC = ohlc.map((d: any) => {
+            const utcTimestamp = (d.time / 1000) as UTCTimestamp
             return {
-                time: (d.time / 1000) as UTCTimestamp,
+                time: utcTimestamp,
                 open: d.open,
                 high: d.high,
                 low: d.low,
@@ -162,6 +155,7 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
 
     let convertedPlots: any[] = []
     if (plots.length > 0) {
+        console.log('Found', plots.length, 'plots from strategy response...')
         convertedPlots = plots.map((d: any) => {
             return {
                 // add shared xaxis
@@ -173,10 +167,12 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
                 }),
             }
         })
+    } else {
+        console.log('No plots from strategy response...')
     }
 
     return (
-        <div className={`${className} overflow-hidden rounded-lg pr-3`}>
+        <div className={`${className} overflow-hidden rounded-lg`}>
             {
                 ohlc.length > 0 ? (
                     <LightWeightChart

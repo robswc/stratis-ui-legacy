@@ -1,5 +1,4 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
 import OrderTable, {orderTableColumns} from "@/components/positions/orderTable";
 import {Backtest, Order} from "@/types/types";
 import PositionTable, {positionTableColumns} from "@/components/positions/positionTable";
@@ -26,7 +25,7 @@ export default function BacktestResults({backtest}: {backtest: Backtest}) {
 
     let stats = ['pnl', 'wl_ratio', 'winning_trades', 'losing_trades', 'trades']
 
-    console.log('backtest', backtest)
+    console.log('Backtest Results', backtest)
 
     const renderStats = () => {
         if (backtest) {
