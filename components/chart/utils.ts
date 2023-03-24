@@ -33,12 +33,14 @@ export const convertedOrders = (orders: any, buyColor: any, sellColor: any) => {
     return orders.map((d: any) => {
         const price = d.filled_avg_price.toFixed(2)
         const str = `${d.qty} @ ${price} (${d.id.substring(0, 4)})`
+        const shape = d.side === 'buy' ? 'arrowUp' : 'arrowDown'
+        const position = d.side === 'buy' ? 'belowBar' : 'aboveBar'
         return {
             time: (d.timestamp / 1000) as UTCTimestamp,
-            shape: d.side === 'buy' ? 'arrowUp' : 'arrowDown',
+            shape: shape,
             color: d.side === 'buy' ? buyColor : sellColor,
             size: 2,
-            position: d.side === 'buy' ? 'belowBar' : 'aboveBar',
+            position: position,
             text: str,
         }
     })

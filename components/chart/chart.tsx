@@ -23,9 +23,9 @@ export const LightWeightChart = (props: any) => {
         plots,
         orders,
         colors: {
-            backgroundColor = getHexFromClass('bg-neutral'),
-            lineColor = getHexFromClass('bg-base-100'),
-            textColor = getHexFromClass('bg-neutral-content'),
+            backgroundColor = getHexFromClass('bg-base-100'),
+            lineColor = getHexFromClass('bg-base-200'),
+            textColor = getHexFromClass('bg-base-300'),
             areaTopColor = '#2962FF',
             areaBottomColor = 'rgba(41, 98, 255, 0.28)',
         } = {},
@@ -48,10 +48,10 @@ export const LightWeightChart = (props: any) => {
                 },
                 grid: {
                     vertLines: {
-                        color: getHexFromClass('bg-base-300'),
+                        color: getHexFromClass('bg-base-200'),
                     },
                     horzLines: {
-                        color: getHexFromClass('bg-base-300'),
+                        color: getHexFromClass('bg-base-200'),
                     },
                 },
                 // @ts-ignore
