@@ -52,7 +52,7 @@ function StrategyForm({ name, runCallback }: { name: string, runCallback: (data:
                         {...register(name, options)}
                         type={jsType}
                         className='input input-bordered w-24 text-lg'
-
+                        step='any'
                         onChange={(e) => {
                             if (autoRun) {
                                 // add a small delay in future, if user is typing to avoid multiple requests

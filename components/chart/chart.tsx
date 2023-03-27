@@ -86,11 +86,12 @@ export const LightWeightChart = (props: any) => {
             if (plots) {
                 // loop through plots
                 plots.forEach((plot: any) => {
+                    console.log('plot -> ', plot)
                     // add series
                     const newSeries = chart.addLineSeries({
-                        color: plot.color,
-                        lineWidth: plot.lineWidth,
-                        lineStyle: plot.lineStyle,
+                        color: plot.config.color,
+                        lineWidth: plot.config.lineWidth,
+                        lineStyle: plot.config.lineStyle,
                     });
                     // add data
                     newSeries.setData(plot.data);
@@ -165,6 +166,8 @@ export function Chart({ohlc, plots, orders, className}: {ohlc: any, plots: any, 
                         value: d.data[i]
                     }
                 }),
+                config: d.config,
+                name: d.name
             }
         })
     } else {
