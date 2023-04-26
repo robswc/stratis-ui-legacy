@@ -45,6 +45,8 @@ export default function StrategyPage({params}: any) {
             body['kwargs'] = {path: data}
         } else if (adapter === 'APIDataAdapter') {
             body['kwargs'] = {symbol: data}
+        } else if (adapter === 'APIDataAdapterLegacy') {
+            body['kwargs'] = {symbol: data}
         }
         axios.post(url, body).then(res => {
             setDataConfig({adapter: adapter, data: data, start: start, end: end})
