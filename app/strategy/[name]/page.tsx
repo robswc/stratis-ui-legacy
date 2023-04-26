@@ -43,9 +43,7 @@ export default function StrategyPage({params}: any) {
         let body = {start: start, end: end, kwargs: {}}
         if (adapter === 'CSVAdapter') {
             body['kwargs'] = {path: data}
-        } else if (adapter === 'APIDataAdapter') {
-            body['kwargs'] = {symbol: data}
-        } else if (adapter === 'APIDataAdapterLegacy') {
+        } else {
             body['kwargs'] = {symbol: data}
         }
         axios.post(url, body).then(res => {
