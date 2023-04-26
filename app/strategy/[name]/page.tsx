@@ -76,7 +76,7 @@ export default function StrategyPage({params}: any) {
         let kwargs: AdapterKwargs = {start: null, end: null, path: null, symbol: null}
         if (dataConfig.adapter === 'CSVAdapter') {
             kwargs['path'] = dataConfig.data
-        } else if (dataConfig.adapter === 'APIDataAdapter') {
+        } else {
             kwargs['symbol'] = dataConfig.data
         }
 
